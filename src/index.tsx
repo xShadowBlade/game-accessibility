@@ -5,14 +5,23 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 
+import { SettingsProvider, SettingsTab } from "./tabs/settings";
+import { ArticleTab } from "./tabs/article";
+import { GameTab } from "./tabs/game";
+
 /**
  * @returns The root component of the application.
  */
 const App: React.FC = () => {
     return (
-        <div className="p-4 m-1">
-            <h1 className="text-3xl font-bold underline">Hello World!</h1>
-        </div>
+        <SettingsProvider>
+            {/* Tabs */}
+            <div className="flex h-screen">
+                <SettingsTab />
+                <ArticleTab />
+                <GameTab />
+            </div>
+        </SettingsProvider>
     );
 };
 

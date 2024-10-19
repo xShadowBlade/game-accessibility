@@ -15,6 +15,10 @@ export default defineConfig({
     server: {
         port: 8080,
     },
+    // outDir: "../dist",
+    build: {
+        outDir: "../dist",
+    },
     plugins: [
         react(),
         // tailwindcss(),

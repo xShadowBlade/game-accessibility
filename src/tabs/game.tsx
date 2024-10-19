@@ -14,9 +14,10 @@ export const GameTab: React.FC = () => {
 
     return (
         <div className="w-2/5 tab">
-            <h1 className="text-3xl font-bold underline">Game</h1>
-
-            <ButtonGame />
+            <h1 className="text-3xl font-bold text-center">Game</h1>
+            <hr />
+            {settings.progress.gameUnlocked === true && <ButtonGame />}
+            {/* <ButtonGame /> */}
         </div>
     );
 };

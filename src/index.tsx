@@ -13,12 +13,21 @@ import { GameTab } from "./tabs/game";
  * @returns The root component of the application.
  */
 const App: React.FC = () => {
+    // Rerender
+    const [render, setRender] = React.useState(0);
+
+    const rerender = () => {
+        setRender(render + 1);
+    };
+
     return (
         <SettingsProvider>
             {/* Tabs */}
             <div className="flex h-screen">
                 <SettingsTab />
-                <ArticleTab />
+                <ArticleTab
+                    rerender={rerender}
+                />
                 <GameTab />
             </div>
         </SettingsProvider>

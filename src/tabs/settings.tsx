@@ -5,11 +5,16 @@ import React, { useState, createContext, useContext, useEffect } from "react";
 import { Slider } from "@mui/material";
 
 import type { GameSettings } from "../game/buttonGame";
+import type { ProgressionPoints } from "../game/progression";
+import { progressionPoints } from "../game/progression";
+import { SizeAndSpeedSetting } from "../game/settings/sizeAndSpeed";
+import { AutoclickSetting } from "../game/settings/autoclick";
 
 // Create a settings context and provider for use throughout the application.
 /**
  * @file The settings of the application.
  */
+// prettier-ignore
 export type Settings = GameSettings & {
     /**
      * Set the value of a setting.
@@ -18,9 +23,9 @@ export type Settings = GameSettings & {
      */
     readonly set: <K extends keyof Settings>(key: K, value: Settings[K]) => void;
 
-    test: number;
-    test2: string;
-}
+    // Progression points
+    progress: ProgressionPoints;
+};
 
 /**
  * The settings of the application.
@@ -36,18 +41,38 @@ export const useSettings = (): Settings => useContext(SettingsContext);
 
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [settings, setSettings] = useState<Settings>({
-        set: (key, value) => setSettings({ ...settings, [key]: value }),
-        test: 0,
-        test2: "test",
+        set: (key, value) => setSettings((prev) => ({ ...prev, [key]: value })),
 
         // Game settings
         speed: 100,
-        size: 10,
+        size: 15,
         autoClick: false,
+
+        // Progression points
+        progress: Object.fromEntries(progressionPoints.map((point) => [point, false])) as ProgressionPoints,
     });
 
     return <SettingsContext.Provider value={settings}>{children}</SettingsContext.Provider>;
 };
+
+/**
+ * Check if a progression point is required.
+ * @param point - The progression point to check.
+ * @returns Whether the progression point is required.
+ */
+// export const requiresProgression = (point: keyof ProgressionPoints) => {
+//     const settings = useSettings();
+//     return settings["progress"][point] === true;
+// };
+
+/**
+ * Set a progression point.
+ * @param point - The progression point to set.
+ */
+// export const setProgression = (point: ProgressionPoints) => {
+//     const settings = useSettings();
+//     settings.set("progress", point);
+// };
 
 // Declare the tab for the settings of the application.
 /**
@@ -63,35 +88,11 @@ export const SettingsTab: React.FC = () => {
 
     return (
         <div className="w-1/5 tab overflow-y-auto">
-            <h1 className="text-3xl font-bold underline">Settings</h1>
-            <div className="p-4">
-                <h2 className="text-2xl font-bold">Test</h2>
-                <Slider
-                    value={settings.test}
-                    onChange={(_, value) => settings.set("test", value)}
-                    min={0}
-                    max={100}
-                    step={1}
-                />
-            </div>
-            <div className="p-4">
-                <h2 className="text-2xl font-bold">Test 2</h2>
-                <input
-                    type="text"
-                    value={settings.test2}
-                    onChange={(event) => settings.set("test2", event.target.value)}
-                />
-            </div>
+            <h1 className="text-3xl font-bold text-center">Settings</h1>
+            <hr />
 
-            {/* Test scroll */}
-            <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-            </p>
+            <SizeAndSpeedSetting />
+            <AutoclickSetting />
         </div>
     );
 };

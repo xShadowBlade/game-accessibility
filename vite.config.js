@@ -19,6 +19,8 @@ export default defineConfig({
     build: {
         outDir: "../dist",
     },
+    // Github Pages
+    base: "/game-accessibility/",
     plugins: [
         react(),
         // tailwindcss(),

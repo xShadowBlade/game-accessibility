@@ -8,6 +8,7 @@ export const progressionPoints = [
     "gameUnlocked",
     "sizeAndSpeedUnlocked",
     "autoclickUnlocked",
+    "colorPickerUnlocked",
 ] as const satisfies string[];
 
 export type ProgressionPoints = {

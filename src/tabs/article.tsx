@@ -6,6 +6,7 @@ import { useSettings } from "./settings";
 import { Tabs, Tab, Button, Box } from "@mui/material";
 import { SizeAndSpeedSetting } from "../game/settings/sizeAndSpeed";
 import { AutoclickSetting } from "../game/settings/autoclick";
+import { ColorPicker } from "../game/settings/display";
 
 /**
  * An article page.
@@ -99,9 +100,51 @@ const articles: ArticlePage[] = [
             </>
         ),
     },
+    {
+        title: "Color",
+        content: (
+            <>
+                <p>
+                    Color is an important aspect of game design. It can help convey information, set the mood, and create
+                    a visually appealing experience.
+                </p>
+                <br />
+                <p>
+                    Some players may have color blindness or low vision, making it difficult to distinguish between
+                    certain colors. To address this, you can provide alternative color schemes or use other visual
+                    cues to convey information.
+                </p>
+                <br />
+                <p>
+                    Try experimenting with different color options to see how they affect the game's accessibility:
+                </p>
+
+                <ColorPicker />
+            </>
+        ),
+    },
+    {
+        title: "Conclusion",
+        content: (
+            <>
+                <p>
+                    Accessibility is important in ensuring that everyone can enjoy games, regardless of their abilities.
+                </p>
+                <br />
+                <p>
+                    As game developers and players, it's our responsibility to advocate for accessibility. Making games
+                    more accessible not only benefits those with disabilities but enhances the experience for all
+                    players.
+                </p>
+                <br />
+                <p>Thank you for exploring these accessibility options with us!</p>
+            </>
+        ),
+    },
 ];
 
 /**
+ * @param props
  * @returns The article tab of the application with MUI Tabs and Next/Back buttons.
  */
 export const ArticleTab: React.FC<{ rerender: () => void }> = (props) => {
@@ -143,6 +186,7 @@ export const ArticleTab: React.FC<{ rerender: () => void }> = (props) => {
             gameUnlocked: article >= 1,
             sizeAndSpeedUnlocked: article >= 2,
             autoclickUnlocked: article >= 3,
+            colorPickerUnlocked: article >= 4,
         });
         props.rerender();
     };
